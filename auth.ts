@@ -1,9 +1,14 @@
+import { prisma } from "@/lib/prisma"
+import { signInSchema } from "@/lib/zod"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import credentials from "next-auth/providers/credentials"
 import google from "next-auth/providers/google"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [google,
+    adapter: PrismaAdapter(prisma),
+    providers: [
+        google,
         credentials({
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
             // e.g. domain, username, password, 2FA token, etc.
@@ -12,13 +17,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: {},
             },
             authorize: async (credentials) => {
-                let user = null
+
+                const { email, password } = await signInSchema.parseAsync(credentials)
 
                 // logic to salt and hash password
-                const pwHash = saltAndHashPassword(credentials.password)
+                // const pwHash = saltAndHashPassword(credentials.password)
 
                 // logic to verify if the user exists
-                user = await getUserFromDb(credentials.email, pwHash)
+                // user = await getUserFromDb(credentials.email, pwHash)
+
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email }
+                })
 
                 if (!user) {
                     // No user found, so this is their first attempt to login
@@ -31,4 +41,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
         }),
     ],
+    session: {
+        strategy: "jwt"
+    },
+    pages: {
+        signIn: '/auth/signin',
+        // Add custom pages as needed
+    }
 })

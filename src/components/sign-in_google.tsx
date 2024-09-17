@@ -1,7 +1,7 @@
 import { signIn } from "../../auth"
 
 
-export default function SignIn() {
+export default function SignInGoogle() {
     return (
         <div className="bg-secondary p-2 rounded-lg border ">
             <form
