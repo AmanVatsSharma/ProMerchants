@@ -1,10 +1,18 @@
 import React from 'react'
+import CardWrapper from './CardWrapper'
 
 type Props = {}
 
 const LoginForm = (props: Props) => {
     return (
-        <div>LoginForm</div>
+        <CardWrapper
+            headerLabel='Welcome back'
+            backButtonLabel="Don't have an account"
+            backButtonHref='/auth/register'
+            showSocial
+        >
+            LoginForm
+        </CardWrapper>
     )
 }
 
