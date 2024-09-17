@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { signInSchema } from "@/lib/zod"
+import { signInSchema } from "@/schemas"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import credentials from "next-auth/providers/credentials"
