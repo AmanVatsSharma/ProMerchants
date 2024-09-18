@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Poppins } from 'next/font/google'
+import Image from 'next/image';
 
 const font = Poppins({
     subsets: ["latin"],
@@ -17,7 +18,13 @@ export const AuthHeader = ({ label }: HeaderProps) => {
                 "text-3xl font-semibold",
                 font.className
             )}>
-                🔐 Auth
+                <Image 
+                src="https://firebasestorage.googleapis.com/v0/b/theaweshop.appspot.com/o/uploads%2Flogo.png?alt=media&token=248632f8-8183-4ba0-b999-3046c165ab09" 
+                alt="ProMerchants logo" 
+                className='h-1/2 aspect-auto' 
+                width={500}
+                height={200}
+                />
             </h1>
             <p className='text-muted-foreground text-sm'>
                 {label}
