@@ -10,8 +10,8 @@ import confetti from 'canvas-confetti'
 
 const EmailVerificationPage = () => {
     const searchParams = useSearchParams()
-    const token = searchParams.get('token') | 123456
-    const email = searchParams.get('email') | "test@email.com"
+    const token = searchParams.get('token') ?? 123456
+    const email = searchParams.get('email') ?? "test@email.com"
 
     const [verificationStatus, setVerificationStatus] = useState<'pending' | 'success' | 'error'>('pending')
     const [isResending, setIsResending] = useState(false)
@@ -59,7 +59,6 @@ const EmailVerificationPage = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
             <Card className="w-full max-w-md overflow-hidden">
                 <CardHeader className="bg-green-600 text-white p-6">
                     <CardTitle className="text-2xl font-bold text-center">Email Verification</CardTitle>
@@ -124,7 +123,6 @@ const EmailVerificationPage = () => {
                     </p>
                 </CardFooter>
             </Card>
-        </div>
     )
 }
 

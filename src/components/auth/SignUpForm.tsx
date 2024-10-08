@@ -13,10 +13,11 @@ import FormError from '../form-error'
 import FormSucess from '../form-sucess'
 import { register } from '@/actions/auth'
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa'
+import {  useRouter } from 'next/navigation'
 
 
 const SignUpForm = () => {
-
+    const router = useRouter()
     const [isPending, startTransition] = useTransition()
 
     const [error, setError] = useState<string | undefined>("")
@@ -36,12 +37,18 @@ const SignUpForm = () => {
         setSuccess("")
 
         try {
+
             startTransition(async () => {
-                await register(values)
-                    .then((data) => {
-                        setError(data.error)
-                        setSuccess(data.success)
-                    })
+                // await register(values)
+                //     .then((data) => {
+                //         setError(data.error)
+                //         setSuccess(data.success)
+                //     })
+                console.log(values);
+                await setTimeout(() => {
+                    router.push('/auth/email-verification')
+                }, 3000)
+
             })
         } catch (error) {
             console.log(error)
@@ -63,24 +70,24 @@ const SignUpForm = () => {
                             name='name'
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className="text-gray-700">
-                                    Full Name
-                                </FormLabel>
-                                <FormControl>
-                                    <div className="relative">
-                                        <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                        <Input
-                                            {...field}
-                                            disabled={isPending}
-                                            placeholder="John Doe"
-                                            type='text'
-                                            className="pl-10 border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                                        />
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                    )}
+                                    <FormLabel className="text-gray-700">
+                                        Full Name
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                            <Input
+                                                {...field}
+                                                disabled={isPending}
+                                                placeholder="John Doe"
+                                                type='text'
+                                                className="pl-10 border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
                         <FormField
                             control={form.control}
