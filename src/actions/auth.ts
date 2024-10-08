@@ -41,7 +41,7 @@ import { signInSchema, signUpSchema } from "@/schemas"
 import { prisma } from "@/lib/prisma"
 import { AuthError } from "next-auth"
 import { signIn } from "../../auth"
-import { bcrypt } from 'bcryptjs';
+import  bcrypt  from 'bcryptjs';
 import * as z from 'zod'
 
 export const login = async (values: z.infer<typeof signInSchema>) => {
