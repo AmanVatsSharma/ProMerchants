@@ -14,12 +14,13 @@ import FormSucess from '../form-sucess'
 import { login } from '@/actions/auth'
 import Link from 'next/link'
 import { FaEnvelope, FaLock } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 
 const LoginForm = () => {
 
+    const router = useRouter()
     const [isPending, startTransition] = useTransition()
-
     const [error, setError] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
 
@@ -31,21 +32,23 @@ const LoginForm = () => {
         }
     })
 
-    const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    const onSubmit = (values: z.infer<typeof signInSchema>) => {
         setError("")
         setSuccess("")
 
-        try {
-            startTransition(async () => {
-                await login(values)
-                    .then((data) => {
+        startTransition(() => {
+            login(values)
+                .then((data) => {
+                    if (data.error) {
                         setError(data.error)
+                    }
+                    if (data.success) {
                         setSuccess(data.success)
-                    })
-            })
-        } catch (error) {
-            console.log(error)
-        }
+                        router.push('/dashboard')
+                    }
+                })
+                .catch(() => setError("Something went wrong!"))
+        })
     }
 
     return (
@@ -153,3 +156,5 @@ const LoginForm = () => {
 }
 
 export default LoginForm
+
+
