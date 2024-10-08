@@ -1,3 +1,4 @@
+//schemas/index.ts
 import { object, string } from "zod"
 
 export const signInSchema = object({
@@ -22,3 +23,4 @@ export const signUpSchema = object({
         .min(3, "Name is required")
         .max(64, "Name must be less than 64 characters"),
 })
+

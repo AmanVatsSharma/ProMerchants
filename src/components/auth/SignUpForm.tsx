@@ -19,7 +19,6 @@ import {  useRouter } from 'next/navigation'
 const SignUpForm = () => {
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
-
     const [error, setError] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
 
@@ -32,28 +31,26 @@ const SignUpForm = () => {
         }
     })
 
-    const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
+    const onSubmit = (values: z.infer<typeof signUpSchema>) => {
         setError("")
         setSuccess("")
 
-        try {
-
-            startTransition(async () => {
-                // await register(values)
-                //     .then((data) => {
-                //         setError(data.error)
-                //         setSuccess(data.success)
-                //     })
-                console.log(values);
-                await setTimeout(() => {
-                    router.push('/auth/email-verification')
-                }, 3000)
-
-            })
-        } catch (error) {
-            console.log(error)
-        }
+        startTransition(() => {
+            register(values)
+                .then((data) => {
+                    if (data.error) {
+                        setError(data.error)
+                    }
+                    if (data.success) {
+                        setSuccess(data.success)
+                        router.push('/auth/signin')
+                    }
+                })
+                .catch(() => setError("Something went wrong!"))
+        })
     }
+
+
 
     return (
         <CardWrapper
