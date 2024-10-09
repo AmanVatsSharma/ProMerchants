@@ -59,14 +59,25 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
+import AppleProvider from "next-auth/providers/apple"
+import FacebookProvider from "next-auth/providers/facebook"
 import bcrypt from "bcryptjs"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            clientId: process.env.AUTH_GOOGLE_ID!,
+            clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+        }),
+        AppleProvider({
+            clientId: process.env.AUTH_APPLE_ID!,
+            clientSecret: process.env.AUTH_APPLE_SECRET!,
+        }),
+        FacebookProvider({
+            clientId: process.env.AUTH_FACEBOOK_CLIENT_ID!,
+            clientSecret: process.env.AUTH_FACEBOOK_CLIENT_SECRET!,
         }),
         CredentialsProvider({
             name: "credentials",
@@ -109,19 +120,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     callbacks: {
         async session({ session, token }) {
-            if (token.sub && session.user) {
-                session.user.id = token.sub
+            if (token) {
+                session.user.id = token.id as string
+                session.user.name = token.name
+                session.user.email = token.email
             }
             return session
         },
-        async jwt({ token }) {
-            const dbUser = await prisma.user.findUnique({
-                where: { id: token.sub },
-            })
-            if (dbUser) {
-                token.role = dbUser.role
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id
             }
             return token
         }
-    }
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 })
+
