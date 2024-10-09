@@ -1,13 +1,15 @@
-import { Button } from "@/components/ui/button"
 import LoginButton from "@/components/auth/LoginButton"
 import { auth } from "../../../../auth"
+import ProButton from "@/components/ProUi/ProButton"
 
 export default async function Page() {
+
     const session = await auth()
     // if (!session) return <div className="w-screen h-screen flex items-center justify-center">Not authenticated</div>
+    console.log(session)
 
     return (
-        <div className="flex h-screen flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+        <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-400 to-green-800 p-3">
             <div className="space-y-6 text-center">
                 <h1 className="text-6xl font-semibold text-white drop-shadow-md">
                     🔐 Auth
@@ -17,9 +19,9 @@ export default async function Page() {
                 </p>
                 <div>
                     <LoginButton>
-                        <Button variant={"secondary"} size={"lg"}>
+                        <ProButton animated variant={"primary"} size={"md"}>
                             Sign In
-                        </Button>
+                        </ProButton>
                     </LoginButton>
                 </div>
             </div>
