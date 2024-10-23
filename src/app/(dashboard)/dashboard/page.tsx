@@ -24,6 +24,7 @@ export default async function Page() {
                         </ProButton>
                     </LoginButton>
                 </div>
+                {JSON.stringify(session)}
             </div>
         </div>
     )
