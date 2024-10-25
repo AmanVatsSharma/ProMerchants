@@ -5,8 +5,11 @@ import { signInSchema, signUpSchema } from "@/schemas"
 import { prisma } from "@/lib/prisma"
 import { AuthError } from "next-auth"
 import { signIn } from "../../auth"
-import  bcrypt  from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import * as z from 'zod'
+import { generateVerificationToken } from "@/lib/tokens"
+import { getUserByEmail } from "../../data/user"
+import { sendVerificationEmail } from "@/lib/ResendMail"
 
 export const login = async (values: z.infer<typeof signInSchema>) => {
     const validatedFields = signInSchema.safeParse(values)
@@ -16,6 +19,18 @@ export const login = async (values: z.infer<typeof signInSchema>) => {
     }
 
     const { email, password } = validatedFields.data
+
+    const existingUser = await getUserByEmail(email)
+
+    if (!existingUser || !existingUser.email || !existingUser.password) {
+        return { error: "Email does not exist!" }
+    }
+
+    if (!existingUser.emailVerified) {
+        const verificationToken = await generateVerificationToken(existingUser.email)
+
+        return {success: "Confirmation email sent!"}
+    }
 
     try {
         await signIn("credentials", {
@@ -65,9 +80,14 @@ export const register = async (values: z.infer<typeof signUpSchema>) => {
             }
         })
 
-        return { success: "User registered successfully!" }
+        const verificationToken = await generateVerificationToken(email)
+        await sendVerificationEmail(verificationToken.email, verificationToken.token)
+
+        return { success: "Confirmation email sent!" }
     } catch (error) {
         console.error("Registration error:", error)
         return { error: "Something went wrong during registration!" }
     }
+
+
 }

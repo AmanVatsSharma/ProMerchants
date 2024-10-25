@@ -11,7 +11,7 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import FormError from '../form-error'
 import FormSucess from '../form-sucess'
-import { register } from '@/actions/auth'
+import { register } from '@/actions/auth.actions'
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa'
 import {  useRouter } from 'next/navigation'
 

@@ -116,16 +116,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         strategy: "jwt"
     },
     pages: {
-        signIn: '/auth/signin',
+        signIn: '/auth/login',
+        error: '/auth/error',
+    },
+    events: {
+        async linkAccount({ user }) {
+            await prisma.user.update({
+                where: { id: user.id},
+                data: { emailVerified: new Date()}
+            })
+        }
     },
     callbacks: {
         async session({ session, token }) {
             if (token) {
-                session.user.id = token.id as string
-                session.user.name = token.name
-                session.user.email = token.email
+                session.user = session.user || {}; // Ensure `user` object is initialized
+                session.user.id = token.id as string;
+                session.user.name = token.name;
+                session.user.email = token.email;
             }
-            return session
+            return session;
         },
         async jwt({ token, user }) {
             if (user) {
