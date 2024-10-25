@@ -1,16 +1,16 @@
-"use client"
+// "use client"
 
-import React, { Suspense } from 'react'
-import AuthCallback from '@/components/auth/AuthCallback'
+// import React, { Suspense } from 'react'
+// import AuthCallback from '@/components/auth/AuthCallback'
 
 
-const SocialAuthCallback = () => {
+// const SocialAuthCallback = () => {
 
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <AuthCallback />
-        </Suspense>
-    )
-}
+//     return (
+//         <Suspense fallback={<div>Loading...</div>}>
+//             <AuthCallback />
+//         </Suspense>
+//     )
+// }
 
-export default SocialAuthCallback
+// export default SocialAuthCallback
