@@ -1,28 +1,23 @@
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
 
-
-export const getVerificationTokenByEmail = async ( email: String ) => {
+export const getVerificationTokenByEmail = async (email:string) => {
     try {
-        const verificationToken = await prisma.verificationToken.findFirst(
-            {
-                where: { email }
-            }
-            return verificationToken;
-        )
+        const verificationToken = await prisma.verificationToken.findFirst({
+            where: { email },
+        });
+        return verificationToken;
     } catch {
-        return null 
+        return null;
     }
-}
+};
 
-export const getVerificationTokenByToken = async ( token: String ) => {
+export const getVerificationTokenByToken = async (token:string) => {
     try {
-        const verificationToken = await prisma.verificationToken.findUnique(
-            {
-                where: { token }
-            }
-            return verificationToken;
-        )
+        const verificationToken = await prisma.verificationToken.findUnique({
+            where: { token },
+        });
+        return verificationToken;
     } catch {
-        return null 
+        return null;
     }
-}
+};
