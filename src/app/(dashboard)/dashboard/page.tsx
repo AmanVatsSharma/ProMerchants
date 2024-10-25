@@ -1,6 +1,7 @@
 import LoginButton from "@/components/auth/LoginButton"
 import { auth } from "../../../../auth"
 import ProButton from "@/components/ProUi/ProButton"
+import { SignOut } from "@/components/signout-button"
 
 export default async function Page() {
 
@@ -25,6 +26,9 @@ export default async function Page() {
                     </LoginButton>
                 </div>
                 {JSON.stringify(session)}
+                <ProButton>
+                    <SignOut/>
+                </ProButton>
             </div>
         </div>
     )
