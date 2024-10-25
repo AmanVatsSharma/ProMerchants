@@ -43,7 +43,7 @@ const SignUpForm = () => {
                     }
                     if (data.success) {
                         setSuccess(data.success)
-                        router.push('/auth/email-verification')
+                        // router.push('/auth/email-verification')
                     }
                 })
                 .catch(() => setError("Something went wrong!"))

@@ -10,6 +10,7 @@ import * as z from 'zod'
 import { generateVerificationToken } from "@/lib/tokens"
 import { getUserByEmail } from "../../data/user"
 import { sendVerificationEmail } from "@/lib/ResendMail"
+import { getVerificationTokenByToken } from "../../data/verification-token"
 
 export const login = async (values: z.infer<typeof signInSchema>) => {
     const validatedFields = signInSchema.safeParse(values)
@@ -28,8 +29,9 @@ export const login = async (values: z.infer<typeof signInSchema>) => {
 
     if (!existingUser.emailVerified) {
         const verificationToken = await generateVerificationToken(existingUser.email)
+        await sendVerificationEmail(verificationToken.email, verificationToken.token)
 
-        return {success: "Confirmation email sent!"}
+        return { success: "Confirmation email sent!" }
     }
 
     try {
@@ -88,6 +90,40 @@ export const register = async (values: z.infer<typeof signUpSchema>) => {
         console.error("Registration error:", error)
         return { error: "Something went wrong during registration!" }
     }
+}
 
 
+export const newVerification = async (token: string) => {
+
+    const existingToken = await getVerificationTokenByToken(token)
+
+    if (!existingToken) {
+        return { error: "Token does not exist!" }
+    }
+
+    const hasExpired = new Date(existingToken.expires) < new Date();
+
+    if (hasExpired) {
+        return { error: "Token has expired!" }
+    }
+
+    const existingUser = await getUserByEmail(existingToken.email)
+
+    if (!existingUser) {
+        return { error: "Email does not exist!" }
+    }
+
+    await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+            emailVerified: new Date(),
+            email: existingToken.email
+        }
+    });
+
+    await prisma.verificationToken.delete({
+        where: { token },
+    })
+
+    return { success: "Email verified!" }
 }
