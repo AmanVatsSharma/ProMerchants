@@ -9,6 +9,7 @@ import GoogleProvider from "next-auth/providers/google"
 import AppleProvider from "next-auth/providers/apple"
 import FacebookProvider from "next-auth/providers/facebook"
 import bcrypt from "bcryptjs"
+import { getUserById } from "./data/user"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 
@@ -69,12 +70,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     events: {
         async linkAccount({ user }) {
             await prisma.user.update({
-                where: { id: user.id},
-                data: { emailVerified: new Date()}
+                where: { id: user.id },
+                data: { emailVerified: new Date() }
             })
         }
     },
     callbacks: {
+        async signIn({ user, account }) {
+
+            // allow OAuth without email verification
+            if (account?.provider !== "credentials")
+                return true;
+
+            const existingUser = await getUserById(user.id)
+
+            // prevent sign in without email verification
+            if (!existingUser?.emailVerified) return false
+
+            // Todo: Add 2FA check
+            return true;
+        },
         async session({ session, token }) {
             if (token) {
                 session.user = session.user || {}; // Ensure `user` object is initialized
