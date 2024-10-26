@@ -7,14 +7,17 @@ import { FaCheckCircle, FaExclamationTriangle, FaEnvelope } from 'react-icons/fa
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import { newVerification } from '@/actions/auth.actions'
+import { sendVerificationEmail } from '@/lib/ResendMail'
+import { getVerificationTokenByToken } from '../../../data/verification-token'
 
 
 const EmailVerification = () => {
     const searchParams = useSearchParams();
     const [token, setToken] = useState<string | null>(null)
-    const [email, setEmail] = useState<string | null>(null)
+    // const [email, setEmail] = useState<string | null>(null)
 
     const [verificationStatus, setVerificationStatus] = useState<'pending' | 'success' | 'error'>('pending')
+    const [errorMessage, setErrorMessage] = useState<string>()
     const [isResending, setIsResending] = useState(false)
     const [resendCooldown, setResendCooldown] = useState(0)
 
@@ -22,28 +25,24 @@ const EmailVerification = () => {
         // Check if we're on the client before accessing search params
         if (typeof window !== 'undefined') {
             setToken(searchParams?.get('token') ?? '123456')
-            setEmail(searchParams?.get('email') ?? 'test@email.com')
+            // setEmail(searchParams?.get('email') ?? 'test@email.com')
         }
     }, [searchParams])
 
     useEffect(() => {
         if (!token) return;
-    
+
         const verifyEmail = async () => {
             try {
-                // Make sure newVerification is actually returning something
                 const response = await newVerification(token);
-                
-                // Add more detailed logging
-                console.log("Raw response:", response);
-                
+
                 // Check if response exists
                 if (!response) {
-                    console.error("No response received from newVerification");
                     setVerificationStatus('error');
+                    setErrorMessage("Unexpected error occured. Please try again.")
                     return;
                 }
-    
+
                 // Handle the response
                 if (response.success) {
                     console.log("Verification successful:", response.success);
@@ -54,41 +53,47 @@ const EmailVerification = () => {
                     });
                     setVerificationStatus('success');
                 } else if (response.error) {
-                    console.error("Verification failed:", response.error);
                     setVerificationStatus('error');
+                    setErrorMessage(response.error)
                 } else {
-                    console.error("Unexpected response format:", response);
                     setVerificationStatus('error');
+                    setErrorMessage("The link may have expired or been used already.")
                 }
             } catch (error) {
-                console.error("Verification request failed:", error);
                 setVerificationStatus('error');
+                setErrorMessage("Verification request failed.")
             }
         };
-    
+
         verifyEmail();
-    }, [token]);    
+    }, [token]);
 
-
-
-    new Promise(resolve => setTimeout(resolve, 2000))
 
     const resendVerificationEmail = async () => {
         setIsResending(true)
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        setIsResending(false)
-        setResendCooldown(60)
+        if (token) {
 
-        const countdownInterval = setInterval(() => {
-            setResendCooldown((prevCooldown) => {
-                if (prevCooldown <= 1) {
-                    clearInterval(countdownInterval)
-                    return 0
-                }
-                return prevCooldown - 1
-            })
-        }, 1000)
+            const verificationToken = await getVerificationTokenByToken(token)
+            await sendVerificationEmail(verificationToken?.email, verificationToken?.token)
+            setIsResending(false)
+            setResendCooldown(60)
+
+            const countdownInterval = setInterval(() => {
+                setResendCooldown((prevCooldown) => {
+                    if (prevCooldown <= 1) {
+                        clearInterval(countdownInterval)
+                        return 0
+                    }
+                    return prevCooldown - 1
+                })
+            }, 1000)
+        }
+        setIsResending(false)
+        setVerificationStatus('error');
+        setErrorMessage("Missing token or broken link.")
     }
+
+
 
 
     return (
@@ -138,7 +143,8 @@ const EmailVerification = () => {
                         >
                             <FaExclamationTriangle className="mx-auto text-6xl text-yellow-500 mb-4" />
                             <h2 className="text-xl font-semibold mb-2">Verification Failed</h2>
-                            <p className="text-gray-600 mb-4">We couldn&apos;t verify your email. The link may have expired or been used already.</p>
+                            <p className="text-gray-600 mb-4">We couldn&apos;t verify your email.</p>
+                            <p>{errorMessage}</p>
                             <Button
                                 onClick={resendVerificationEmail}
                                 disabled={isResending || resendCooldown > 0}

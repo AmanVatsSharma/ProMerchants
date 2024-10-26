@@ -7,10 +7,11 @@ import { AuthError } from "next-auth"
 import { signIn } from "../../auth"
 import bcrypt from 'bcryptjs';
 import * as z from 'zod'
-import { generateVerificationToken } from "@/lib/tokens"
+import { generatePasswordResetVerificationToken, generateVerificationToken } from "@/lib/tokens"
 import { getUserByEmail } from "../../data/user"
-import { sendVerificationEmail } from "@/lib/ResendMail"
+import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/ResendMail"
 import { getVerificationTokenByToken } from "../../data/verification-token"
+import { PasswordResetResponse } from "../../types"
 
 export const login = async (values: z.infer<typeof signInSchema>) => {
     const validatedFields = signInSchema.safeParse(values)
@@ -127,3 +128,33 @@ export const newVerification = async (token: string) => {
 
     return { success: "Email verified!" }
 }
+
+export const resetPassword = async (values: { email: string }): Promise<PasswordResetResponse> => {
+    if (!values.email) {
+        return { error: "Email is required" };
+    }
+
+    try {
+        const existingUser = await getUserByEmail(values.email);
+
+        // For security, we don't want to reveal if an email exists or not
+        if (!existingUser) {
+            return {
+                success: "If an account exists with this email, you will receive password reset instructions shortly"
+            };
+        }
+
+        const passwordResetToken = await generatePasswordResetVerificationToken(values.email);
+        await sendPasswordResetEmail(passwordResetToken.email, passwordResetToken.token);
+
+        return {
+            success: "If an account exists with this email, you will receive password reset instructions shortly"
+        };
+    } catch (error) {
+        console.error("Password reset error:", error);
+        return {
+            error: "Something went wrong. Please try again later."
+        };
+    }
+};
+
