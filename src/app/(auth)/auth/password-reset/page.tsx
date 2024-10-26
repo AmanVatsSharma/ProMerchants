@@ -1,12 +1,13 @@
 import NewPasswordForm from '@/components/auth/NewPasswordForm'
-import React from 'react'
+import React, { Suspense } from 'react'
 
-type Props = {}
 
-const PasswordResetPage = (props: Props) => {
+const PasswordResetPage = () => {
   return (
-    <NewPasswordForm />
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewPasswordForm />
+    </Suspense>
   )
 }
 
-export default PasswordResetPage
+export default PasswordResetPage;
