@@ -24,3 +24,9 @@ export const signUpSchema = object({
         .max(64, "Name must be less than 64 characters"),
 })
 
+export const NewPasswordSchema = object({
+    password: string({ required_error: "Password is required" })
+        .min(1, "Password is required")
+        .min(8, "Password must be more than 8 characters")
+        .max(32, "Password must be less than 32 characters"),
+})

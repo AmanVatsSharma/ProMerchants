@@ -91,7 +91,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
     try {
-        const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/password-reset?token=${token}`;
+        const confirmLink = `https://pro-merchants.vercel.app/auth/password-reset?token=${token}`;
 
         await resend.emails.send({
             from: "onboarding@biggamegraphics.in",
