@@ -28,7 +28,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FaRocket, FaChartLine, FaLock, FaMagic, FaGlobe, FaHeadset, FaCheck, FaArrowRight, FaStar, FaUsers, FaTrendingUp, FaShieldAlt, FaCog, FaDatabase, FaCloud, FaMobile, FaCreditCard, FaClock, FaAward } from 'react-icons/fa'
+import { FaRocket, FaChartLine, FaLock, FaMagic, FaGlobe, FaHeadset, FaCheck, FaArrowRight, FaStar, FaUsers, FaShieldAlt, FaCog, FaDatabase, FaCloud, FaMobile, FaCreditCard, FaClock, FaAward, FaChartBar } from 'react-icons/fa'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -405,7 +405,7 @@ const HomePage = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <Badge variant="outline" className="mb-4 bg-green-50 border-green-200 text-green-700">
-                <FaTrendingUp className="mr-2" />
+                <FaChartBar className="mr-2" />
                 Transparent Pricing
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
