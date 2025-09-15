@@ -316,7 +316,7 @@ const HomePage = () => {
         </motion.section>
 
         {/* Features Section */}
-        <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+        <section id="features" className="py-24 bg-gradient-to-b from-white to-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <Badge variant="outline" className="mb-4 bg-green-50 border-green-200 text-green-700">
@@ -401,7 +401,7 @@ const HomePage = () => {
         </section>
 
         {/* Pricing Section */}
-        <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+        <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <Badge variant="outline" className="mb-4 bg-green-50 border-green-200 text-green-700">
@@ -676,6 +676,120 @@ const HomePage = () => {
           </div>
         </section>
 
+        {/* About Us Section */}
+        <section id="about" className="py-24 bg-gradient-to-b from-white to-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <Badge variant="outline" className="mb-4 bg-green-50 border-green-200 text-green-700">
+                <FaUsers className="mr-2" />
+                About ProMerchants
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Empowering E-commerce Excellence
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                ProMerchants is a leading provider of cutting-edge e-commerce solutions, dedicated to helping businesses scale and succeed in the digital marketplace.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+              {/* Company Story */}
+              <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h3>
+                <div className="space-y-4 text-gray-600 leading-relaxed">
+                  <p>
+                    ProMerchants was born from a vision to democratize e-commerce technology, making enterprise-grade solutions accessible to businesses of all sizes. As a subsidiary of{' '}
+                    <a 
+                      href="https://www.vedpragya.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-green-600 hover:text-green-700 font-semibold underline"
+                    >
+                      Vedpragya Bharat Private Limited
+                    </a>
+                    , we leverage our parent company's extensive expertise in technology and business innovation.
+                  </p>
+                  <p>
+                    Our platform combines the power of artificial intelligence, modern cloud infrastructure, and user-centric design to deliver unparalleled e-commerce experiences. We believe that every business deserves access to tools that can transform their online presence and drive sustainable growth.
+                  </p>
+                  <p>
+                    With a team of passionate developers, designers, and business strategists, we're committed to pushing the boundaries of what's possible in e-commerce technology while maintaining the highest standards of security, performance, and customer satisfaction.
+                  </p>
+                </div>
+              </div>
+
+              {/* Company Stats */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                <h3 className="text-2xl font-bold mb-8 text-gray-900">By the Numbers</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <div className="text-3xl font-bold text-green-600 mb-2">10,000+</div>
+                    <div className="text-sm text-gray-600">Active Businesses</div>
+                  </div>
+                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">$2.3B+</div>
+                    <div className="text-sm text-gray-600">Revenue Generated</div>
+                  </div>
+                  <div className="text-center p-4 bg-purple-50 rounded-lg">
+                    <div className="text-3xl font-bold text-purple-600 mb-2">99.9%</div>
+                    <div className="text-sm text-gray-600">Uptime Guarantee</div>
+                  </div>
+                  <div className="text-center p-4 bg-orange-50 rounded-lg">
+                    <div className="text-3xl font-bold text-orange-600 mb-2">24/7</div>
+                    <div className="text-sm text-gray-600">Expert Support</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Parent Company Information */}
+            <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 text-white">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 className="text-3xl font-bold mb-4">About Our Parent Company</h3>
+                  <p className="text-green-100 leading-relaxed mb-6">
+                    <strong>Vedpragya Bharat Private Limited</strong> is a forward-thinking technology company incorporated on April 28, 2025, and headquartered in Bhiwani, Haryana. As our parent company, Vedpragya Bharat brings decades of combined experience in technology innovation, business strategy, and market development.
+                  </p>
+                  <p className="text-green-100 leading-relaxed">
+                    The company is committed to fostering innovation and supporting subsidiary companies like ProMerchants in delivering cutting-edge solutions to global markets. With a strong foundation in technology and business excellence, Vedpragya Bharat ensures that ProMerchants operates with the highest standards of corporate governance and technological advancement.
+                  </p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                  <h4 className="text-xl font-semibold mb-4">Company Details</h4>
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <span className="font-semibold">Company Name:</span><br />
+                      Vedpragya Bharat Private Limited
+                    </div>
+                    <div>
+                      <span className="font-semibold">CIN:</span> U47912HR2025PTC131357
+                    </div>
+                    <div>
+                      <span className="font-semibold">Incorporated:</span> April 28, 2025
+                    </div>
+                    <div>
+                      <span className="font-semibold">Registered Address:</span><br />
+                      C/O Aditi, Madhur Colony, Haluwas Opp Bansilal Park<br />
+                      Bhiwani, Haryana, 127021
+                    </div>
+                    <div className="pt-4">
+                      <a 
+                        href="https://www.vedpragya.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                      >
+                        Visit Parent Company
+                        <FaArrowRight className="text-sm" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Tech Stack Section */}
         <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
           <div className="container mx-auto px-4">
@@ -915,11 +1029,57 @@ const HomePage = () => {
               </div>
             </div>
 
+            {/* Company Information */}
+            <div className="pt-8 border-t border-gray-700 mb-8">
+              <div className="bg-gray-800 rounded-lg p-6">
+                <h4 className="text-lg font-semibold mb-4 text-white">Company Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-300">
+                  <div>
+                    <p className="mb-2">
+                      <span className="font-semibold text-green-400">ProMerchants</span> is a subsidiary of{' '}
+                      <a 
+                        href="https://www.vedpragya.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-green-400 hover:text-green-300 transition-colors underline"
+                      >
+                        Vedpragya Bharat Private Limited
+                      </a>
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Registered Address:</span><br />
+                      C/O Aditi, Madhur Colony, Haluwas Opp Bansilal Park<br />
+                      Bhiwani, Haryana, 127021
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-2">
+                      <span className="font-semibold">CIN:</span> U47912HR2025PTC131357
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Incorporated:</span> April 28, 2025
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Parent Company:</span>{' '}
+                      <a 
+                        href="https://www.vedpragya.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-green-400 hover:text-green-300 transition-colors"
+                      >
+                        www.vedpragya.com
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Bottom Section */}
             <div className="pt-8 border-t border-gray-700">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="text-sm text-gray-400">
-                  © 2024 ProMerchants. All rights reserved. Built with ❤️ for modern e-commerce.
+                  © 2024 ProMerchants, a subsidiary of Vedpragya Bharat Private Limited. All rights reserved. Built with ❤️ for modern e-commerce.
                 </div>
                 <div className="flex items-center gap-6 text-sm">
                   <a href="#" className="text-gray-400 hover:text-green-400 transition-colors">Privacy Policy</a>
